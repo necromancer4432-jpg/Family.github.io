@@ -696,7 +696,7 @@ function Hero() {
                     <span className="text-transparent font-jap bg-clip-text bg-gradient-to-r from-family-300 via-family-400 to-family-500">
                         Kamaruddin
                     </span>
-                </motion.h1>
+                </motion.div>
 
                 {/* Tagline */}
                 <motion.p
@@ -1191,7 +1191,7 @@ function Gallery() {
                             }`}
                         >
                             {cat}
-                        </motion.button>
+                        </button>
                     ))}
                 </div>
 
