@@ -5,6 +5,7 @@ import {
     useScroll,
     useTransform,
     useInView,
+    useSpring,
 } from 'framer-motion';
 import {
     Heart,
@@ -686,7 +687,7 @@ function Navbar() {
             }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16 lg:h-20">
+                <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
                     <a
                         href="#"
                         className={`text-xl lg:text-2xl font-bold font-display transition-colors duration-300 ${
@@ -701,13 +702,16 @@ function Navbar() {
                             <a
                                 key={l.href}
                                 href={l.href}
-                                className={`text-sm font-medium transition-colors hover:text-family-500 ${
+                                className={`text-sm font-medium transition-colors relative group ${
                                     isScrolled
-                                        ? 'text-stone-700'
-                                        : 'text-white/90'
+                                        ? 'text-stone-700 hover:text-family-600'
+                                        : 'text-white/90 hover:text-white'
                                 }`}
                             >
                                 {l.label}
+                                <span className={`absolute -bottom-0.5 left-0 w-0 h-0.5 rounded-full transition-all duration-300 group-hover:w-full ${
+                                    isScrolled ? 'bg-family-500' : 'bg-white'
+                                }`} />
                             </a>
                         ))}
                     </div>
@@ -816,7 +820,7 @@ function Hero() {
                         duration: 0.8,
                         ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-6xl font-bold font-jap text-white mb-6 leading-tight"
+                    className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-6xl font-bold font-jap text-white mb-4 sm:mb-6 leading-tight px-2"
                 >
                     Keluarga{' '}
                     <span className="text-transparent font-jap bg-clip-text bg-gradient-to-r from-family-300 via-family-400 to-family-500">
@@ -828,7 +832,7 @@ function Hero() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7, duration: 0.8 }}
-                    className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl font-light leading-relaxed mb-10"
+                    className="text-sm sm:text-lg md:text-xl text-white/70 max-w-2xl font-light leading-relaxed mb-8 sm:mb-10 px-6"
                 >
                     &ldquo;Keluarga bukanlah sesuatu yang penting. Keluarga
                     adalah segalanya.&rdquo;
@@ -838,17 +842,18 @@ function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9, duration: 0.6 }}
-                    className="flex gap-4"
+                    className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none sm:w-auto px-6 sm:px-0"
                 >
                     <a
                         href="#about"
-                        className="bg-family-600 hover:bg-family-700 text-white px-8 py-3.5 rounded-full font-semibold text-sm transition-all hover:shadow-lg hover:shadow-family-600/25 hover:-translate-y-0.5"
+                        className="relative overflow-hidden bg-family-600 hover:bg-family-700 text-white px-8 py-4 sm:py-3.5 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-2xl hover:shadow-family-600/40 hover:-translate-y-1 active:scale-95 group text-center"
                     >
-                        Mengenal Kami
+                        <span className="relative z-10">Mengenal Kami</span>
+                        <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 rounded-full" />
                     </a>
                     <a
                         href="#gallery"
-                        className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-8 py-3.5 rounded-full font-semibold text-sm transition-all hover:-translate-y-0.5"
+                        className="bg-white/10 hover:bg-white/25 backdrop-blur-md border border-white/30 hover:border-white/60 text-white px-8 py-4 sm:py-3.5 rounded-full font-semibold text-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-white/10 active:scale-95 text-center"
                     >
                         Galeri Foto
                     </a>
@@ -910,14 +915,14 @@ function Stats() {
     ];
 
     return (
-        <section id="stats" ref={ref} className="relative -mt-20 z-20 px-4">
+        <section id="stats" ref={ref} className="relative -mt-16 sm:-mt-20 z-20 px-4">
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl shadow-stone-900/10 p-8 md:p-12"
+                className="max-w-5xl mx-auto bg-white rounded-2xl sm:rounded-3xl shadow-2xl shadow-stone-900/10 p-6 sm:p-8 md:p-12"
             >
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-4">
                     {stats.map((stat, i) => (
                         <motion.div
                             key={i}
@@ -958,20 +963,20 @@ function About() {
     const isInView = useInView(ref, { once: true, margin: '-80px' });
 
     return (
-        <section id="about" className="py-20 lg:py-28 bg-white">
+        <section id="about" className="py-16 sm:py-20 lg:py-28 bg-white">
             <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
                     <motion.div
                         initial={{ opacity: 0, x: -60 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                         className="relative"
                     >
-                        <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-stone-900/10">
+                        <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl shadow-stone-900/10">
                             <img
                                 src="/images/family.jpeg"
                                 alt="Keluarga Kamaruddin"
-                                className="w-full h-[200px] lg:h-[350px] object-cover"
+                                className="w-full h-[240px] sm:h-[280px] lg:h-[350px] object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-family-900/30 to-transparent" />
                         </div>
@@ -1033,12 +1038,12 @@ function About() {
                             ].map((item, i) => (
                                 <div
                                     key={i}
-                                    className="flex items-center gap-3 text-stone-700"
+                                    className="flex items-center gap-3 text-stone-700 group/item cursor-default"
                                 >
-                                    <span className="text-family-500">
+                                    <span className="text-family-500 group-hover/item:text-family-600 group-hover/item:scale-110 transition-all duration-200">
                                         {item.icon}
                                     </span>
-                                    <span className="text-sm font-medium">
+                                    <span className="text-sm font-medium group-hover/item:text-family-800 transition-colors duration-200">
                                         {item.text}
                                     </span>
                                 </div>
@@ -1047,10 +1052,13 @@ function About() {
 
                         <a
                             href="#members"
-                            className="inline-flex items-center gap-2 bg-family-600 hover:bg-family-700 text-white px-7 py-3.5 rounded-full font-semibold text-sm transition-all hover:shadow-lg hover:shadow-family-600/25 hover:-translate-y-0.5"
+                            className="relative overflow-hidden inline-flex items-center gap-2 bg-family-600 hover:bg-family-700 text-white px-7 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-2xl hover:shadow-family-600/30 hover:-translate-y-1 active:scale-95 group"
                         >
-                            Kenali Anggota Kami
-                            <ChevronDown className="w-4 h-4 rotate-[-90deg]" />
+                            <span className="relative z-10 flex items-center gap-2">
+                                Kenali Anggota Kami
+                                <ChevronDown className="w-4 h-4 rotate-[-90deg] group-hover:translate-x-1 transition-transform duration-300" />
+                            </span>
+                            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 rounded-full" />
                         </a>
                     </motion.div>
                 </div>
@@ -1084,18 +1092,20 @@ function MemberModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
             onClick={onClose}
         >
             <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                initial={{ scale: 0.95, opacity: 0, y: 60 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl"
+                exit={{ scale: 0.95, opacity: 0, y: 60 }}
+                transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+                className="bg-white rounded-t-3xl sm:rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl max-h-[90vh] sm:max-h-[85vh] flex flex-col"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="relative h-64 sm:h-72">
+                <div className="relative h-52 sm:h-64 md:h-72 flex-shrink-0">
+                    {/* Drag handle for mobile */}
+                    <div className="absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 bg-stone-300 rounded-full z-10 sm:hidden" />
                     <img
                         src={member.photo}
                         alt={member.name}
@@ -1112,12 +1122,12 @@ function MemberModal({
                     </div>
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 text-white/80 hover:text-white bg-black/30 hover:bg-black/50 rounded-full p-2 transition-all"
+                        className="absolute top-4 right-4 text-white/80 hover:text-white bg-black/30 hover:bg-black/60 rounded-full p-2 transition-all duration-200 hover:scale-110 hover:rotate-90 active:scale-95"
                     >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
-                <div className="p-6 sm:p-8">
+                <div className="p-5 sm:p-6 md:p-8 overflow-y-auto flex-1">
                     <p className="text-stone-500 italic text-sm mb-4 border-l-2 border-family-300 pl-4">
                         {member.quote}
                     </p>
@@ -1128,7 +1138,7 @@ function MemberModal({
                         {member.hobbies.map((hobby) => (
                             <span
                                 key={hobby}
-                                className="bg-family-50 text-family-700 px-3 py-1.5 rounded-full text-xs font-medium"
+                                className="bg-family-50 hover:bg-family-100 text-family-700 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:scale-105 cursor-default"
                             >
                                 {hobby}
                             </span>
@@ -1159,8 +1169,8 @@ function FamilyMembers() {
     };
 
     return (
-        <section id="members" className="py-20 lg:py-28 bg-stone-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  ">
+        <section id="members" className="py-16 sm:py-20 lg:py-28 bg-stone-50 pb-24 md:pb-20">
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 <SectionHeading
                     subtitle="Anggota Keluarga"
                     title="Keluarga Kami"
@@ -1169,7 +1179,7 @@ function FamilyMembers() {
 
                 <div
                     ref={ref}
-                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
                 >
                     {familyMembers.map((member, i) => (
                         <motion.div
@@ -1182,45 +1192,56 @@ function FamilyMembers() {
                                 ease: [0.22, 1, 0.36, 1],
                             }}
                             whileHover={{
-                                y: -8,
-                                transition: { duration: 0.3 },
+                                y: -12,
+                                transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
                             }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={() => setSelectedMember(member)}
-                            className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg shadow-stone-900/5 hover:shadow-2xl hover:shadow-family-900/10 transition-shadow duration-500"
+                            className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg shadow-stone-900/5 hover:shadow-2xl hover:shadow-family-900/15 transition-all duration-500 relative"
                         >
-                            <div className="relative h-72 overflow-hidden">
+                            {/* Shine sweep effect */}
+                            <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 pointer-events-none overflow-hidden rounded-3xl">
+                                <div className="absolute -inset-x-full top-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/8 to-transparent skew-x-12 group-hover:translate-x-[350%] transition-transform duration-1000 ease-out" />
+                            </div>
+                            <div className="relative h-56 sm:h-64 md:h-72 overflow-hidden">
                                 <img
                                     src={member.photo}
                                     alt={member.name}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-115"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent group-hover:from-black/80 transition-all duration-500" />
                                 <div className="absolute top-4 right-4">
                                     <span
                                         className={`inline-block bg-gradient-to-r ${
                                             roleColors[member.role] ||
                                             'from-amber-500 to-amber-600'
-                                        } text-white text-[10px] font-bold tracking-wider uppercase px-3 py-1.5 rounded-full`}
+                                        } text-white text-[10px] font-bold tracking-wider uppercase px-3 py-1.5 rounded-full shadow-lg`}
                                     >
                                         {member.role}
                                     </span>
                                 </div>
+                                {/* Hover overlay: view detail prompt */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                    <div className="bg-white/15 backdrop-blur-sm rounded-full px-5 py-2.5 border border-white/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                        <span className="text-white text-sm font-semibold tracking-wide">Lihat Profil</span>
+                                    </div>
+                                </div>
                                 <div className="absolute bottom-4 left-5 right-5">
-                                    <h3 className="text-xl font-bold text-white font-display">
+                                    <h3 className="text-xl font-bold text-white font-display group-hover:text-family-200 transition-colors duration-300">
                                         {member.name}
                                     </h3>
                                 </div>
                             </div>
                             <div className="p-5">
-                                <p className="text-stone-500 text-sm mb-3 line-clamp-2">
+                                <p className="text-stone-500 text-sm mb-3 line-clamp-2 group-hover:text-stone-700 transition-colors duration-300">
                                     {member.quote}
                                 </p>
                                 <div className="flex items-center justify-between">
                                     <span className="text-stone-400 text-xs">
                                         Lahir {member.birthYear}
                                     </span>
-                                    <span className="text-family-600 text-xs font-semibold group-hover:translate-x-1 transition-transform">
-                                        Lihat Detail →
+                                    <span className="text-family-600 text-xs font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+                                        Lihat Detail <span className="group-hover:translate-x-1 transition-transform duration-300 inline-block">→</span>
                                     </span>
                                 </div>
                             </div>
@@ -1314,8 +1335,8 @@ function Gallery() {
             : galleryImages.filter((img) => img.category === activeCategory);
 
     return (
-        <section id="gallery" className="py-20 lg:py-28 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="gallery" className="py-16 sm:py-20 lg:py-28 bg-white pb-24 md:pb-20">
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 <SectionHeading
                     subtitle="Galeri Foto"
                     title="Momen Berharga"
@@ -1323,15 +1344,15 @@ function Gallery() {
                 />
 
                 {/* Category Filter */}
-                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                <div className="flex flex-wrap justify-center gap-2 mb-8 px-2">
                     {galleryCategories.map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
-                            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                            className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 active:scale-95 ${
                                 activeCategory === cat
-                                    ? 'bg-family-600 text-white shadow-md shadow-family-600/25'
-                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                    ? 'bg-family-600 text-white shadow-lg shadow-family-600/30 scale-105'
+                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:scale-105 hover:shadow-md'
                             }`}
                         >
                             {cat}
@@ -1341,7 +1362,7 @@ function Gallery() {
 
                 <div
                     ref={ref}
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4"
                 >
                     <AnimatePresence mode="popLayout">
                         {filtered.map((img, i) => (
@@ -1355,30 +1376,42 @@ function Gallery() {
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 transition={{ delay: i * 0.05, duration: 0.4 }}
                                 whileHover={{
-                                    scale: 1.03,
-                                    transition: { duration: 0.2 },
+                                    scale: 1.04,
+                                    zIndex: 10,
+                                    transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
                                 }}
+                                whileTap={{ scale: 0.97 }}
                                 onClick={() => setSelectedImage(img)}
-                                className="group cursor-pointer relative overflow-hidden rounded-2xl aspect-square"
+                                className="group cursor-pointer relative overflow-hidden rounded-2xl aspect-square shadow-md hover:shadow-2xl hover:shadow-stone-900/20 transition-shadow duration-300"
                             >
                                 <img
                                     src={img.src}
                                     alt={img.alt}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-115"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="bg-white/20 backdrop-blur-md rounded-full p-3">
+                                {/* Multi-layer overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                                <div className="absolute inset-0 bg-family-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                {/* Camera icon center */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                    <div className="bg-white/20 backdrop-blur-md rounded-full p-3.5 transform scale-75 group-hover:scale-100 transition-transform duration-300 border border-white/30">
                                         <Camera className="w-6 h-6 text-white" />
                                     </div>
                                 </div>
-                                <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <p className="text-white text-sm font-medium">
+                                {/* Bottom text */}
+                                <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-out">
+                                    <p className="text-white text-sm font-medium line-clamp-1 drop-shadow">
                                         {img.alt}
                                     </p>
                                     <p className="text-white/60 text-xs">
                                         {img.category}
                                     </p>
+                                </div>
+                                {/* Top-right category badge */}
+                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                    <span className="bg-black/40 backdrop-blur-sm text-white/90 text-[10px] px-2 py-0.5 rounded-full font-medium">
+                                        {img.category}
+                                    </span>
                                 </div>
                             </motion.div>
                         ))}
@@ -1408,7 +1441,7 @@ function Values() {
     return (
         <section
             id="values"
-            className="py-20 lg:py-28 bg-gradient-to-br from-family-800 via-family-900 to-stone-900 relative overflow-hidden"
+            className="py-16 sm:py-20 lg:py-28 bg-gradient-to-br from-family-800 via-family-900 to-stone-900 relative overflow-hidden pb-24 md:pb-20"
         >
             {/* Background decoration */}
             <div className="absolute inset-0 opacity-5">
@@ -1439,18 +1472,23 @@ function Values() {
                                 ease: [0.22, 1, 0.36, 1],
                             }}
                             whileHover={{
-                                y: -6,
-                                transition: { duration: 0.3 },
+                                y: -8,
+                                transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
                             }}
-                            className="bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 hover:border-family-400/30 rounded-2xl p-7 transition-all duration-500 group"
+                            className="bg-white/5 hover:bg-white/12 backdrop-blur-md border border-white/10 hover:border-family-400/50 rounded-2xl p-7 transition-all duration-500 group relative overflow-hidden cursor-default"
                         >
-                            <div className="w-14 h-14 rounded-xl bg-family-500/20 text-family-400 flex items-center justify-center mb-5 group-hover:bg-family-500/30 transition-colors">
+                            {/* Glow effect on hover */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-family-400/20 to-transparent" />
+                            </div>
+                            <div className="w-14 h-14 rounded-xl bg-family-500/20 text-family-400 flex items-center justify-center mb-5 group-hover:bg-family-400/30 group-hover:text-family-300 group-hover:scale-110 transition-all duration-300 relative">
+                                <div className="absolute inset-0 rounded-xl bg-family-400/10 scale-0 group-hover:scale-150 opacity-0 group-hover:opacity-0 transition-all duration-500" />
                                 {value.icon}
                             </div>
-                            <h3 className="text-lg font-bold text-white font-display mb-2">
+                            <h3 className="text-lg font-bold text-white font-display mb-2 group-hover:text-family-200 transition-colors duration-300 relative">
                                 {value.title}
                             </h3>
-                            <p className="text-white/60 text-sm leading-relaxed">
+                            <p className="text-white/60 text-sm leading-relaxed group-hover:text-white/80 transition-colors duration-300 relative">
                                 {value.description}
                             </p>
                         </motion.div>
@@ -1469,7 +1507,7 @@ function Timeline() {
     const isInView = useInView(ref, { once: true, margin: '-80px' });
 
     return (
-        <section id="timeline" className="py-20 lg:py-28 bg-stone-50">
+        <section id="timeline" className="py-16 sm:py-20 lg:py-28 bg-stone-50 pb-24 md:pb-20">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <SectionHeading
                     subtitle="Perjalanan Kami"
@@ -1478,10 +1516,10 @@ function Timeline() {
                 />
 
                 <div ref={ref} className="relative">
-                    {/* Vertical line */}
-                    <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-stone-200 md:-translate-x-0.5" />
+                    {/* Vertical line - always on left on mobile */}
+                    <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-family-300 via-family-400 to-family-200 md:-translate-x-0.5 opacity-50" />
 
-                    <div className="space-y-10">
+                    <div className="space-y-8 sm:space-y-10">
                         {timelineEvents.map((event, i) => {
                             const isLeft = i % 2 === 0;
                             return (
@@ -1489,42 +1527,43 @@ function Timeline() {
                                     key={i}
                                     initial={{
                                         opacity: 0,
-                                        x: isLeft ? -40 : 40,
+                                        x: -30,
                                     }}
                                     animate={
                                         isInView ? { opacity: 1, x: 0 } : {}
                                     }
                                     transition={{
-                                        delay: i * 0.12,
+                                        delay: i * 0.1,
                                         duration: 0.6,
                                         ease: [0.22, 1, 0.36, 1],
                                     }}
-                                    className={`relative flex items-start gap-6 ${
+                                    className={`relative flex items-start gap-6 md:gap-0 ${
                                         isLeft
                                             ? 'md:flex-row'
                                             : 'md:flex-row-reverse'
                                     }`}
                                 >
                                     {/* Dot */}
-                                    <div className="absolute left-6 md:left-1/2 -translate-x-1/2 z-10">
-                                        <div className="w-12 h-12 bg-white border-4 border-family-500 rounded-full flex items-center justify-center text-family-600 shadow-md">
+                                    <div className="absolute left-5 md:left-1/2 -translate-x-1/2 z-10 group/dot">
+                                        <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-white border-4 border-family-500 rounded-full flex items-center justify-center text-family-600 shadow-md hover:shadow-family-500/40 hover:shadow-lg hover:border-family-400 hover:scale-110 transition-all duration-300 cursor-default">
                                             {event.icon}
+                                            <div className="absolute inset-0 rounded-full border-4 border-family-400/50 scale-125 opacity-0 hover:opacity-100 hover:scale-150 transition-all duration-500" />
                                         </div>
                                     </div>
 
                                     {/* Content */}
                                     <div
-                                        className={`ml-20 md:ml-0 md:w-[calc(50%-40px)] ${
+                                        className={`ml-16 sm:ml-20 md:ml-0 md:w-[calc(50%-40px)] w-full ${
                                             isLeft
                                                 ? 'md:pr-0 md:text-right'
                                                 : 'md:pl-0 md:text-left'
                                         }`}
                                     >
-                                        <div className="bg-white rounded-2xl p-6 shadow-lg shadow-stone-900/5 hover:shadow-xl transition-shadow duration-300">
-                                            <span className="inline-block text-family-600 font-bold text-sm mb-1">
+                                        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg shadow-stone-900/5 hover:shadow-2xl hover:shadow-family-500/10 transition-all duration-400 group/card border border-transparent hover:border-family-100">
+                                            <span className="inline-block text-family-600 font-bold text-sm mb-1 group-hover/card:text-family-500 transition-colors">
                                                 {event.year}
                                             </span>
-                                            <h3 className="text-lg font-bold text-stone-900 font-display mb-1">
+                                            <h3 className="text-base sm:text-lg font-bold text-stone-900 font-display mb-1 group-hover/card:text-family-800 transition-colors">
                                                 {event.title}
                                             </h3>
                                             <p className="text-stone-500 text-sm leading-relaxed">
@@ -1566,7 +1605,7 @@ function FamilyQuote() {
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 >
                     <Quote className="w-12 h-12 text-family-300 mx-auto mb-8" />
-                    <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-stone-800 leading-relaxed mb-8">
+                    <blockquote className="text-xl sm:text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-stone-800 leading-relaxed mb-8">
                         Rumah bukanlah sebuah tempat, rumah adalah{' '}
                         <span className="text-family-600">perasaan</span>. Dan
                         perasaan itu ada ketika kita bersama{' '}
@@ -1590,9 +1629,9 @@ function FamilyQuote() {
    ============================================================ */
 function Footer() {
     return (
-        <footer className="bg-stone-900 text-white pt-16 pb-8">
+        <footer className="bg-stone-900 text-white pt-14 pb-24 md:pb-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid md:grid-cols-3 gap-10 mb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-10">
                     <div>
                         <h3 className="text-2xl font-bold font-display mb-4">
                             Kamaruddin Family
@@ -1619,7 +1658,7 @@ function Footer() {
                                 <a
                                     key={link.href}
                                     href={link.href}
-                                    className="block text-stone-400 hover:text-family-400 text-sm transition-colors"
+                                    className="block text-stone-400 hover:text-family-400 hover:translate-x-1.5 text-sm transition-all duration-200"
                                 >
                                     {link.label}
                                 </a>
@@ -1690,7 +1729,7 @@ function ScrollToTop() {
                     onClick={() =>
                         window.scrollTo({ top: 0, behavior: 'smooth' })
                     }
-                    className="fixed bottom-6 right-6 z-40 bg-family-600 hover:bg-family-700 text-white w-12 h-12 rounded-full shadow-lg shadow-family-600/30 flex items-center justify-center transition-colors"
+                    className="fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-40 bg-family-600 hover:bg-family-500 text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full shadow-xl shadow-family-600/40 flex items-center justify-center transition-all duration-300 hover:shadow-2xl hover:shadow-family-500/50"
                 >
                     <ArrowUp className="w-5 h-5" />
                 </motion.button>
@@ -1700,11 +1739,172 @@ function ScrollToTop() {
 }
 
 /* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+function ScrollProgressBar() {
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
+
+    return (
+        <motion.div
+            style={{ scaleX, transformOrigin: 'left' }}
+            className="fixed top-0 left-0 right-0 h-1 z-[60] bg-gradient-to-r from-family-400 via-family-500 to-rose-400"
+        />
+    );
+}
+
+/* ============================================================
+   TOUCH RIPPLE OVERLAY
+   ============================================================ */
+interface Ripple {
+    id: number;
+    x: number;
+    y: number;
+}
+
+function TouchRippleOverlay() {
+    const [ripples, setRipples] = useState<Ripple[]>([]);
+
+    useEffect(() => {
+        const handleTouch = (e: TouchEvent) => {
+            const touch = e.touches[0];
+            const newRipple: Ripple = {
+                id: Date.now(),
+                x: touch.clientX,
+                y: touch.clientY,
+            };
+            setRipples(prev => [...prev.slice(-4), newRipple]);
+            setTimeout(() => {
+                setRipples(prev => prev.filter(r => r.id !== newRipple.id));
+            }, 800);
+        };
+        window.addEventListener('touchstart', handleTouch, { passive: true });
+        return () => window.removeEventListener('touchstart', handleTouch);
+    }, []);
+
+    return (
+        <div className="fixed inset-0 pointer-events-none z-[55]">
+            <AnimatePresence>
+                {ripples.map(ripple => (
+                    <motion.div
+                        key={ripple.id}
+                        initial={{ scale: 0, opacity: 0.5 }}
+                        animate={{ scale: 4, opacity: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.7, ease: 'easeOut' }}
+                        style={{
+                            position: 'fixed',
+                            left: ripple.x - 30,
+                            top: ripple.y - 30,
+                            width: 60,
+                            height: 60,
+                            borderRadius: '50%',
+                            background: 'radial-gradient(circle, rgba(180,130,90,0.35) 0%, transparent 70%)',
+                            border: '1.5px solid rgba(180,130,90,0.25)',
+                        }}
+                    />
+                ))}
+            </AnimatePresence>
+        </div>
+    );
+}
+
+/* ============================================================
+   SCROLL SECTION REVEAL WRAPPER
+   ============================================================ */
+function RevealSection({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: '-60px' });
+
+    return (
+        <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 32, scale: 0.98 }}
+            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className={className}
+        >
+            {children}
+        </motion.div>
+    );
+}
+
+/* ============================================================
+   MOBILE BOTTOM NAV
+   ============================================================ */
+function MobileBottomNav() {
+    const links = [
+        { href: '#about', label: 'Tentang', icon: <Home className="w-5 h-5" /> },
+        { href: '#members', label: 'Anggota', icon: <Users className="w-5 h-5" /> },
+        { href: '#gallery', label: 'Galeri', icon: <Camera className="w-5 h-5" /> },
+        { href: '#values', label: 'Nilai', icon: <Heart className="w-5 h-5" /> },
+        { href: '#timeline', label: 'Timeline', icon: <Star className="w-5 h-5" /> },
+    ];
+
+    const [active, setActive] = useState('');
+
+    useEffect(() => {
+        const sections = links.map(l => document.querySelector(l.href));
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActive('#' + entry.target.id);
+                    }
+                });
+            },
+            { threshold: 0.4 }
+        );
+        sections.forEach(s => s && observer.observe(s));
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
+            <div className="bg-white/90 backdrop-blur-xl border-t border-stone-100 shadow-2xl shadow-stone-900/20 px-2 pb-safe">
+                <div className="flex items-center justify-around py-2">
+                    {links.map(link => {
+                        const isActive = active === link.href;
+                        return (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-2xl transition-all duration-200 active:scale-90"
+                                onClick={() => setActive(link.href)}
+                            >
+                                <motion.span
+                                    animate={{ scale: isActive ? 1.15 : 1, y: isActive ? -2 : 0 }}
+                                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                                    className={`transition-colors duration-200 ${isActive ? 'text-family-600' : 'text-stone-400'}`}
+                                >
+                                    {link.icon}
+                                </motion.span>
+                                <span className={`text-[10px] font-medium transition-colors duration-200 ${isActive ? 'text-family-600' : 'text-stone-400'}`}>
+                                    {link.label}
+                                </span>
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="bottomNavIndicator"
+                                        className="absolute -top-0.5 w-6 h-0.5 bg-family-500 rounded-full"
+                                    />
+                                )}
+                            </a>
+                        );
+                    })}
+                </div>
+            </div>
+        </nav>
+    );
+}
+
+/* ============================================================
    MAIN APP
    ============================================================ */
 export default function App() {
     return (
         <div className="min-h-screen bg-stone-50 overflow-x-hidden">
+            <ScrollProgressBar />
+            <TouchRippleOverlay />
             <Navbar />
             <Hero />
             <Stats />
@@ -1715,6 +1915,7 @@ export default function App() {
             <Timeline />
             <FamilyQuote />
             <Footer />
+            <MobileBottomNav />
             <ScrollToTop />
         </div>
     );
